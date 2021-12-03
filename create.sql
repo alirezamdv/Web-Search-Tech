@@ -64,10 +64,10 @@ CREATE TABLE GeographicCoordinateSystem (
                                             FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
 );
 
--- Create BuyPrice Table
-CREATE TABLE BuyPrice (
-                          ItemID INT NOT NULL,
-                          BuyPrice DECIMAL(8,2) NOT NULL,
-                          PRIMARY KEY (ItemID),
-                          FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
-);
+-- -- Create BuyPrice Table
+-- CREATE TABLE BuyPrice (
+--                           ItemID INT NOT NULL,
+--                           BuyPrice DECIMAL(8,2) NOT NULL,
+--                           PRIMARY KEY (ItemID),
+--                           FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
+-- );
