@@ -4,6 +4,9 @@ public class Bids {
     private String itemID;
     private String bidderAmount;
 
+    public Bids() {
+    }
+
     public String getBidderUserID() {
         return bidderUserID;
     }
@@ -38,9 +41,9 @@ public class Bids {
 
     @Override
     public String toString() {
-        return bidderUserID + '|' +
-                bidderTime + '|' +
-                itemID + '|' +
+        return bidderUserID + '§' +
+                bidderTime + '§' +
+                itemID + '§' +
                 bidderAmount;
     }
 }
