@@ -20,7 +20,8 @@ public class MyParser extends DefaultHandler {
     private static final String ITEM_PATH = "Item.csv";
     private static final String BID_PATH = "Bids.csv";
     private static final String CATEGORY_PATH = "ItemCategory.csv";
-    private static final String USER_PATH = "User.csv";
+    private static final String BIDDER_PATH = "Bidder.csv";
+    private static final String SELLER_PATH = "Seller.csv";
     private static final String GEO_PATH = "GeographicCoordinateSystem.csv";
 
 
@@ -34,7 +35,8 @@ public class MyParser extends DefaultHandler {
     boolean isInDescription = false;
     private Item item;
     private Bids bids;
-    private User user;
+    private Bidder bidder;
+    private Seller seller;
     private ItemCategory itemCategory;
     private GeoLocation geoLocation;
 
@@ -110,7 +112,8 @@ public class MyParser extends DefaultHandler {
             inItem = true;
             item = new Item();
             bids = new Bids();
-            user = new User();
+            bidder = new Bidder();
+            seller = new Seller();
             itemCategory = new ItemCategory();
             geoLocation = new GeoLocation();
 
@@ -120,6 +123,7 @@ public class MyParser extends DefaultHandler {
             String itemID = atts.getValue("ItemID");
             item.setItemID(itemID);
             bids.setItemID(itemID);
+
             geoLocation.setItemID(itemID);
             itemCategory.setItemID(itemID);
 
@@ -129,21 +133,21 @@ public class MyParser extends DefaultHandler {
             System.out.println("in Bid");
 
         } else if (qName.equalsIgnoreCase("Bidder")) {
-            String bidderUserID = atts.getValue("UserID");
+            String bidderID = atts.getValue("UserID");
             String bidderRating = atts.getValue("Rating");
-            bids.setBidderUserID(bidderUserID);
-            user.setUserID(bidderUserID);
-            user.setBidderRating(bidderRating);
+            bids.setBidderID(bidderID);
+            bidder.setBidderID(bidderID);
+            bidder.setBidderRating(bidderRating);
 
 
             System.out.println("in Bid");
 
         } else if (qName.equalsIgnoreCase("Seller")) {
-            String userID = atts.getValue("UserID");
+            String sellerID = atts.getValue("UserID");
             String sellerRating = atts.getValue("Rating");
-            item.setSellerUserID(userID);
-            user.setUserID(userID);
-            user.setSellerRating(sellerRating);
+            item.setSellerID(sellerID);
+            seller.setSellerID(sellerID);
+            seller.setSellerRating(sellerRating);
 
             System.out.println("in Seller");
 
@@ -178,7 +182,8 @@ public class MyParser extends DefaultHandler {
 
     public void endElement(String uri, String name, String qName) {
         if (qName.equalsIgnoreCase("Item")) {
-            writeToTable(user, USER_PATH);
+            //writeToTable(bidder, BIDDER_PATH);
+            writeToTable(seller, SELLER_PATH);
             writeToTable(item, ITEM_PATH);
         } else if (qName.equalsIgnoreCase("Name")) {
             item.setName(currentValue);
@@ -199,14 +204,17 @@ public class MyParser extends DefaultHandler {
         } else if (qName.equalsIgnoreCase("Bid")) {
             //write bid and user to tables
             writeToTable(bids, BID_PATH);
-            writeToTable(user, USER_PATH);
+            writeToTable(bidder, BIDDER_PATH);
             
 
             inBid = false;
 
         } else if (qName.equalsIgnoreCase("Location")) {
+
+
+           //This part is not clear yet 
             if (inBid) {
-                user.setUserLocation(currentValue);
+                bidder.setBidderLocation(currentValue);
             } else {
                 String lat = geoLocation.getItemLatitude();
                 if (lat!=null){
@@ -214,16 +222,17 @@ public class MyParser extends DefaultHandler {
                     writeToTable(geoLocation, GEO_PATH);
                     //"reset" geoLocation
                     //geoLocation = new GeoLocation()
+                    seller.setSellerLocation(currentValue);
                 } else {
-                    item.setLocation(currentValue);
+                    seller.setSellerLocation(currentValue);
                 }
             }
             
         } else if (qName.equalsIgnoreCase("Country")) {
             if (inBid) {
-                user.setUserCountry(currentValue);
+                bidder.setBidderCountry(currentValue);
             } else {
-                item.setCountry(currentValue);
+                seller.setSellerCountry(currentValue);
             }
             
 

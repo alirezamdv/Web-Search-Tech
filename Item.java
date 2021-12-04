@@ -9,7 +9,7 @@ public class Item {
     private String country;
     private String started;
     private String ends;
-    private String sellerUserID;
+    private String sellerID;
     private String description;
 
     public Item() {
@@ -94,12 +94,12 @@ public class Item {
         this.ends = ends;
     }
 
-    public String getSellerUserID() {
-        return sellerUserID;
+    public String getSellerID() {
+        return sellerID;
     }
 
-    public void setSellerUserID(String sellerUserID) {
-        this.sellerUserID = sellerUserID;
+    public void setSellerID(String sellerID) {
+        this.sellerID = sellerID;
     }
 
     public String getDescription() {
@@ -121,7 +121,7 @@ public class Item {
                 country + "\t" +
                 started + "\t" +
                 ends + "\t" +
-                sellerUserID + "\t" +
+                sellerID + "\t" +
                 description;
     }
 }

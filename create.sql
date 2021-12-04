@@ -3,18 +3,6 @@ CREATE DATABASE IF NOT EXISTS ad;
 USE ad;
 
 
--- Create Seller Table
-CREATE TABLE User (
-                        UserID VARCHAR(100) NOT NULL,
-                        SellerRating INT NOT NULL,
-                        BidderRating INT NOT NULL,
-                        Location VARCHAR(100) NOT NULL,
-                        Country VARCHAR(100) NOT NULL,
-                        PRIMARY KEY (UserID)
-);
-
-
-
 -- Create Item Table
 CREATE TABLE Item (
                       ItemID INT NOT NULL,
@@ -26,11 +14,12 @@ CREATE TABLE Item (
                       Country VARCHAR(100) NOT NULL,
                       Started TIMESTAMP NOT NULL,
                       Ends TIMESTAMP NOT NULL,
-                      BuyPrice DECIMAL(8,2) NOT NULL,
-                      UserID VARCHAR(100) NOT NULL,
+                      BuyPrice DECIMAL(8,2) NOT NULL, --Could be Null maybe default value "-"
+                      SellerID VARCHAR(100) NOT NULL,
                       Description VARCHAR(4000) NOT NULL,
                       PRIMARY KEY (ItemID),
-                      FOREIGN KEY (UserID) REFERENCES User(UserID)
+                      FOREIGN KEY (SellerID) REFERENCES Seller(SellerID)
+                      FOREIGN KEY (Location) REFERENCES Seller(SellerLocation)
 );
 
 -- Create ItemCategory Table
@@ -52,13 +41,31 @@ CREATE TABLE Bids (
                      FOREIGN KEY (UserID) REFERENCES User(UserID)
 );
 
+-- Create Bidder Table
+CREATE TABLE Bidder (
+                        BidderID VARCHAR(100) NOT NULL,
+                        BidderRating INT NOT NULL,
+                        BidderLocation VARCHAR(100) NOT NULL, --could eventually be null
+                        BidderCountry VARCHAR(100) NOT NULL,  --could eventually be null
+                        PRIMARY KEY (BidderID)
+);
+
+-- Create Table Seller
+CREATE TABLE Seller (
+                        SellerID VARCHAR(100) NOT NULL,
+                        SellerRating INT NOT NULL,
+                        SellerLocation VARCHAR(100) NOT NULL,
+                        SellerCountry VARCHAR(100) NOT NULL,
+                        PRIMARY KEY (SellerID)
+);
+
 -- Create GeographicCoordinateSystem Table
-CREATE TABLE GeographicCoordinateSystem (
-                                            ItemID INT NOT NULL,
-                                            Latitude DECIMAL(3, 6) NOT NULL,
-                                            Longitude DECIMAL(3, 6) NOT NULL,
-                                            PRIMARY KEY (ItemID),
-                                            FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
+CREATE TABLE GeographicCoordinates (
+                                        ItemID INT NOT NULL,
+                                        Latitude DECIMAL(3, 6) NOT NULL,
+                                        Longitude DECIMAL(3, 6) NOT NULL,
+                                        PRIMARY KEY (ItemID),
+                                        FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
 );
 
 -- -- Create BuyPrice Table
@@ -67,12 +74,4 @@ CREATE TABLE GeographicCoordinateSystem (
 --                           BuyPrice DECIMAL(8,2) NOT NULL,
 --                           PRIMARY KEY (ItemID),
 --                           FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
--- );
-
-
--- Create Seller Table
--- CREATE TABLE Seller (
---                         UserID VARCHAR(100) NOT NULL,
---                         Rating INT NOT NULL,
---                         PRIMARY KEY (UserID)
 -- );
