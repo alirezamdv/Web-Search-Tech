@@ -41,9 +41,9 @@ public class Bids {
 
     @Override
     public String toString() {
-        return bidderUserID + '§' +
-                bidderTime + '§' +
-                itemID + '§' +
+        return bidderUserID + '\t' +
+                bidderTime + '\t' +
+                itemID + '\t' +
                 bidderAmount;
     }
 }
