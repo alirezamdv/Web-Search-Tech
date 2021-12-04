@@ -112,16 +112,16 @@ public class Item {
 
     @Override
     public String toString() {
-        return itemID + "§" +
-                name + "§" +
-                currently + "§" +
-                firstBid + "§" +
-                numberOfBids + "§" +
-                location + "§" +
-                country + "§" +
-                started + "§" +
-                ends + "§" +
-                sellerUserID + "§" +
+        return itemID + "\t" +
+                name + "\t" +
+                currently + "\t" +
+                firstBid + "\t" +
+                numberOfBids + "\t" +
+                location + "\t" +
+                country + "\t" +
+                started + "\t" +
+                ends + "\t" +
+                sellerUserID + "\t" +
                 description;
     }
 }
