@@ -2,12 +2,18 @@
 CREATE DATABASE IF NOT EXISTS ad;
 USE ad;
 
+
 -- Create Seller Table
-CREATE TABLE Seller (
+CREATE TABLE User (
                         UserID VARCHAR(100) NOT NULL,
-                        Rating INT NOT NULL,
+                        SellerRating INT NOT NULL,
+                        BidderRating INT NOT NULL,
+                        Location VARCHAR(100) NOT NULL,
+                        Country VARCHAR(100) NOT NULL,
                         PRIMARY KEY (UserID)
 );
+
+
 
 -- Create Item Table
 CREATE TABLE Item (
@@ -24,7 +30,7 @@ CREATE TABLE Item (
                       UserID VARCHAR(100) NOT NULL,
                       Description VARCHAR(4000) NOT NULL,
                       PRIMARY KEY (ItemID),
-                      FOREIGN KEY (UserID) REFERENCES Seller(UserID)
+                      FOREIGN KEY (UserID) REFERENCES User(UserID)
 );
 
 -- Create ItemCategory Table
@@ -35,24 +41,15 @@ CREATE TABLE ItemCategory (
                               FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
 );
 
--- Create Bidder Table
-CREATE TABLE Bidder (
-                        BidderUserID VARCHAR(100) NOT NULL,
-                        Rating INT NOT NULL,
-                        Location VARCHAR(100) NOT NULL,
-                        Country VARCHAR(100) NOT NULL,
-                        PRIMARY KEY (BidderUserID)
-);
-
 -- Create Bid Table
 CREATE TABLE Bids (
-                     BidderUserID VARCHAR(100) NOT NULL,
+                     UserID VARCHAR(100) NOT NULL,
                      Time TIMESTAMP NOT NULL,
                      ItemID INT NOT NULL,
                      Amount DECIMAL(8, 2) NOT NULL,
-                     PRIMARY KEY (BidderUserID, ItemID, Amount),
+                     PRIMARY KEY (UserID, Time),
                      FOREIGN KEY (ItemID) REFERENCES Item(ItemID),
-                     FOREIGN KEY (BidderUserID) REFERENCES Bidder(BidderUserID)
+                     FOREIGN KEY (UserID) REFERENCES User(UserID)
 );
 
 -- Create GeographicCoordinateSystem Table
@@ -70,4 +67,12 @@ CREATE TABLE GeographicCoordinateSystem (
 --                           BuyPrice DECIMAL(8,2) NOT NULL,
 --                           PRIMARY KEY (ItemID),
 --                           FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
+-- );
+
+
+-- Create Seller Table
+-- CREATE TABLE Seller (
+--                         UserID VARCHAR(100) NOT NULL,
+--                         Rating INT NOT NULL,
+--                         PRIMARY KEY (UserID)
 -- );
