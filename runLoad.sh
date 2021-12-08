@@ -13,7 +13,7 @@ echo "Database and Tables Were Created Successfully."
 javac MyParser.java
 echo "Compiling the Project is Done."
 
-java MySParser ebay_data/items-*.xml
+java MyParser ebay_data/items-*.xml
 echo "Parsing the XML Files are Done."
 
 # Run the load.sql batch file to load the data
