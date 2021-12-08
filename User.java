@@ -1,59 +1,50 @@
 public class User {
-    private String userID;
-    private String sellerRating;
-    private String bidderRating;
-    private String userLocation;
-    private String userCountry;
+    private String id;
+    private String user_id;
+    private String rating;
+    private String location_id;
 
     public User() {
     }
 
-    public String getUserID() {
-        return userID;
+
+    public String getRating() {
+        return rating;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
-    public String getSellerRating() {
-        return sellerRating;
+    public String getLocation_id() {
+        return location_id;
     }
 
-    public void setSellerRating(String sellerRating) {
-        this.sellerRating = sellerRating;
+    public void setLocation_id(String location_id) {
+        this.location_id = location_id;
     }
 
-    public String getBidderRating() {
-        return bidderRating;
+    public String getId() {
+        return id;
     }
 
-    public void setBidderRating(String bidderRating) {
-        this.bidderRating = bidderRating;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getUserLocation() {
-        return userLocation;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setUserLocation(String userLocation) {
-        this.userLocation = userLocation;
-    }
-
-    public String getUserCountry() {
-        return userCountry;
-    }
-
-    public void setUserCountry(String userCountry) {
-        this.userCountry = userCountry;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     @Override
     public String toString() {
-        return userID + '\t' +
-               sellerRating + '\t' +
-               bidderRating + '\t' +
-               userLocation + '\t'+
-               userCountry;
+        return id + '\t' +
+                user_id + '\t' +
+                rating + '\t' +
+                location_id;
     }
 }

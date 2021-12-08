@@ -1,5 +1,7 @@
+
+
 public class GeoLocation {
-    private String itemID;
+    private String id;
     private String itemLatitude;
     private String itemLongitude;
 
@@ -8,11 +10,15 @@ public class GeoLocation {
     }
 
     public String getItemID() {
-        return itemID;
+        return id;
     }
 
-    public void setItemID(String itemID) {
-        this.itemID = itemID;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getItemLatitude() {
@@ -33,7 +39,7 @@ public class GeoLocation {
 
     @Override
     public String toString() {
-        return itemID + '\t' +
+        return id + '\t' +
                itemLatitude + '\t' +
                itemLongitude;
     }

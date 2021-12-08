@@ -5,11 +5,10 @@ public class Item {
     private String firstBid;
     private String numberOfBids;
     private String buyPrice;
-    private String location;
-    private String country;
+    private String locationId;
     private String started;
     private String ends;
-    private String sellerID;
+    private String userID;
     private String description;
 
     public Item() {
@@ -38,13 +37,6 @@ public class Item {
     public void setCurrently(String currently) {
         this.currently = currently;
     }
-    public String getBuyPrice() {
-        return buyPrice;
-    }
-
-    public void setBuyPrice(String buyPrice) {
-        this.buyPrice = buyPrice;
-    }
 
     public String getFirstBid() {
         return firstBid;
@@ -62,20 +54,20 @@ public class Item {
         this.numberOfBids = numberOfBids;
     }
 
-    public String getLocation() {
-        return location;
+    public String getBuyPrice() {
+        return buyPrice;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setBuyPrice(String buyPrice) {
+        this.buyPrice = buyPrice;
     }
 
-    public String getCountry() {
-        return country;
+    public String getLocationId() {
+        return locationId;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
     }
 
     public String getStarted() {
@@ -94,12 +86,12 @@ public class Item {
         this.ends = ends;
     }
 
-    public String getSellerID() {
-        return sellerID;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setSellerID(String sellerID) {
-        this.sellerID = sellerID;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getDescription() {
@@ -117,11 +109,11 @@ public class Item {
                 currently + "\t" +
                 firstBid + "\t" +
                 numberOfBids + "\t" +
-                location + "\t" +
-                country + "\t" +
+                locationId + "\t" +
                 started + "\t" +
                 ends + "\t" +
-                sellerID + "\t" +
+                buyPrice + "\t" +
+                userID + "\t" +
                 description;
     }
 }
