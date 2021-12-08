@@ -10,4 +10,4 @@
 ### New Changes:
 - New Tables are introduced : User and Location
 - We save list of some fields like user_id in the memory in order to eliminate the duplicates
-- We Generate unique Ids using JAVA.util.UUID for tables like Location, User, Bids and Geolocation
+- We Generate unique Ids using Java.util.UUID for tables like Location, User, Bids and Geolocation
