@@ -20,24 +20,37 @@ public class MyParser extends DefaultHandler {
     private static final String ITEM_PATH = "Item.csv";
     private static final String BID_PATH = "Bids.csv";
     private static final String CATEGORY_PATH = "ItemCategory.csv";
-    private static final String BIDDER_PATH = "Bidder.csv";
-    private static final String SELLER_PATH = "Seller.csv";
-    private static final String GEO_PATH = "GeographicCoordinateSystem.csv";
+    private static final String USER_PATH = "User.csv";
+    private static final String LOCATION_PATH = "Location.csv";
+    private static final String GEO_PATH = "GeoLocation.csv";
 
 
-    
+    // for eliminating the duplicates
+    private final LinkedList<String> bidUserIDLinkedList = new LinkedList<>();
+    private final LinkedList<String> sellerUserIDLinkedList = new LinkedList<>();
+    private final LinkedList<String> bidderUserIDLinkedList = new LinkedList<>();
+    private static final Set<ItemCategory> itemCategorySet = new LinkedHashSet<>();
+
+    private boolean writeToBidderTableAllowed = false;
+    private boolean writeToSellerTableAllowed = false;
+
+    private boolean isGeolocation = false;
+
 
     //for holding  the string value from parsing
     String currentValue = "";
 
     boolean inItem = false;
     boolean inBid = false;
+    private int bidNumber = 0;
     boolean isInDescription = false;
     private Item item;
     private Bids bids;
-    private Bidder bidder;
-    private Seller seller;
+    private User bidder;
+    private User seller;
     private ItemCategory itemCategory;
+    private Location seller_location;
+    private Location bidder_location;
     private GeoLocation geoLocation;
 
     // for description,
@@ -48,11 +61,11 @@ public class MyParser extends DefaultHandler {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
             MyParser myParser = new MyParser();
-            String[] p = {"./items-0.xml"};
+//            String[] p = {"ebay_data/items-1.xml"};
 
             // Parse each file provided on the
             // command line.
-            for (String arg : p) {
+            for (String arg : args) {
                 File inputFile = new File(arg);
 
                 saxParser.parse(inputFile, myParser);
@@ -111,45 +124,57 @@ public class MyParser extends DefaultHandler {
         if (qName.equalsIgnoreCase("Item")) {
             inItem = true;
             item = new Item();
-            bids = new Bids();
-            bidder = new Bidder();
-            seller = new Seller();
+            seller = new User();
+            seller.setId(generateUUID());
             itemCategory = new ItemCategory();
-            geoLocation = new GeoLocation();
 
 
             // set new items
             // for holding the itemID
             String itemID = atts.getValue("ItemID");
             item.setItemID(itemID);
-            bids.setItemID(itemID);
-
-            geoLocation.setItemID(itemID);
             itemCategory.setItemID(itemID);
 
-            System.out.println("in item");
         } else if (qName.equalsIgnoreCase("Bid")) {
             inBid = true;
-            System.out.println("in Bid");
+            bids = new Bids();
+            bids.setItemID(item.getItemID());
+            bids.setId(generateUUID());
 
         } else if (qName.equalsIgnoreCase("Bidder")) {
-            String bidderID = atts.getValue("UserID");
+            String user_id = atts.getValue("UserID");
             String bidderRating = atts.getValue("Rating");
-            bids.setBidderID(bidderID);
-            bidder.setBidderID(bidderID);
-            bidder.setBidderRating(bidderRating);
+            if (!bidderUserIDLinkedList.contains(user_id)) {
+                bidder = new User();
+                bidder.setId(generateUUID());
+                bidder.setUser_id(user_id);
+                bidder.setRating(bidderRating);
+
+                //bid and bidder(user) relation
+                bids.setUserId(bidder.getId());
 
 
-            System.out.println("in Bid");
+                bidderUserIDLinkedList.add(user_id);
+                writeToBidderTableAllowed = true;
+            }
+
 
         } else if (qName.equalsIgnoreCase("Seller")) {
-            String sellerID = atts.getValue("UserID");
+            String user_id = atts.getValue("UserID");
             String sellerRating = atts.getValue("Rating");
-            item.setSellerID(sellerID);
-            seller.setSellerID(sellerID);
-            seller.setSellerRating(sellerRating);
+            if (!sellerUserIDLinkedList.contains(user_id)) {
+                seller.setUser_id(user_id);
+                seller.setRating(sellerRating);
 
-            System.out.println("in Seller");
+                // Item and seller(user) relation
+                item.setUserID(seller.getId());
+
+
+                writeToSellerTableAllowed = true;
+                sellerUserIDLinkedList.add(user_id);
+
+            }
+
 
         } else if (qName.equalsIgnoreCase("Description")) {
 
@@ -157,14 +182,27 @@ public class MyParser extends DefaultHandler {
             isInDescription = true;
             builder = new StringBuilder();
 
-        } else if (qName.equalsIgnoreCase("Location")) {
-            String lat = atts.getValue("Latitude");
-            String longi = atts.getValue("Longitude");
+        } else if (qName.equalsIgnoreCase("Location") ) {
+            if(inBid){
+                bidder_location = new Location();
+                bidder_location.setId(generateUUID());
 
+            }
 
-            if (lat!=null) {
-                geoLocation.setItemLatitude(lat);
-                geoLocation.setItemLongitude(longi);
+            seller_location = new Location();
+            seller_location.setId(generateUUID());
+            item.setLocationId(seller_location.getId());
+
+            if (atts.getLength() == 2) {
+                geoLocation = new GeoLocation();
+                geoLocation.setId(generateUUID());
+                geoLocation.setItemLatitude(atts.getValue("Latitude"));
+                geoLocation.setItemLongitude(atts.getValue("Longitude"));
+
+                //location and geolocation relation
+                seller_location.setGeo_id(geoLocation.getId());
+
+                isGeolocation = true;
             }
 
         }
@@ -183,8 +221,25 @@ public class MyParser extends DefaultHandler {
     public void endElement(String uri, String name, String qName) {
         if (qName.equalsIgnoreCase("Item")) {
             //writeToTable(bidder, BIDDER_PATH);
-            writeToTable(seller, SELLER_PATH);
+            if (writeToSellerTableAllowed) {
+                writeToTable(seller, USER_PATH);
+                writeToTable(seller_location,LOCATION_PATH);
+
+                writeToSellerTableAllowed = false;
+
+            }
+            if (writeToBidderTableAllowed) {
+                writeToTable(bidder, USER_PATH);
+                writeToTable(bidder_location,LOCATION_PATH);
+                writeToBidderTableAllowed = false;
+            }
+            if (bidNumber > 0) {
+                writeToTable(bids, BID_PATH);
+                bidNumber = 0;
+            }
+            writeToTable(itemCategory,CATEGORY_PATH);
             writeToTable(item, ITEM_PATH);
+
         } else if (qName.equalsIgnoreCase("Name")) {
             item.setName(currentValue);
         } else if (qName.equalsIgnoreCase("Category")) {
@@ -197,44 +252,40 @@ public class MyParser extends DefaultHandler {
             item.setFirstBid(strip(currentValue));
         } else if (qName.equalsIgnoreCase("Number_of_Bids")) {
             item.setNumberOfBids(currentValue);
+            try {
+                bidNumber = Integer.parseInt(currentValue);
+            } catch (NumberFormatException ex) {
+                ex.printStackTrace();
+            }
         } else if (qName.equalsIgnoreCase("Time")) {
             bids.setBidderTime(convertTimeToMySQL(currentValue));
         } else if (qName.equalsIgnoreCase("Amount")) {
             bids.setBidderAmount(strip(currentValue));
         } else if (qName.equalsIgnoreCase("Bid")) {
-            //write bid and user to tables
+            //write bid to table
             writeToTable(bids, BID_PATH);
-            writeToTable(bidder, BIDDER_PATH);
-            
-
             inBid = false;
-
         } else if (qName.equalsIgnoreCase("Location")) {
-
-
-           //This part is not clear yet 
+            //This part is not clear yet
             if (inBid) {
-                bidder.setBidderLocation(currentValue);
+                bidder_location.setLocation(currentValue);
             } else {
-                String lat = geoLocation.getItemLatitude();
-                if (lat!=null){
+                seller.setLocation_id(seller_location.getId());
+                seller_location.setLocation(currentValue);
+
+                if (isGeolocation) {
                     //write to table geolocation
                     writeToTable(geoLocation, GEO_PATH);
-                    //"reset" geoLocation
-                    //geoLocation = new GeoLocation()
-                    seller.setSellerLocation(currentValue);
-                } else {
-                    seller.setSellerLocation(currentValue);
+                    isGeolocation = false;
                 }
             }
-            
+
         } else if (qName.equalsIgnoreCase("Country")) {
             if (inBid) {
-                bidder.setBidderCountry(currentValue);
+                bidder_location.setCountry(currentValue);
             } else {
-                seller.setSellerCountry(currentValue);
+                seller_location.setCountry(currentValue);
             }
-            
 
         } else if (qName.equalsIgnoreCase("Started")) {
 
@@ -243,6 +294,10 @@ public class MyParser extends DefaultHandler {
         } else if (qName.equalsIgnoreCase("Ends")) {
 
             item.setEnds(convertTimeToMySQL(currentValue));
+
+        }  else if (qName.equalsIgnoreCase("Bidder")) {
+            // bidder(user) and location relation
+            bidder.setLocation_id(bidder_location.getId());
 
         } else if (qName.equalsIgnoreCase("Description")) {
 
@@ -272,12 +327,12 @@ public class MyParser extends DefaultHandler {
 
     public void characters(char ch[], int start, int length) {
 
-            if (isInDescription) {
-                builder.append(ch, start, length);
-            }else {
-                // for holding the value from parsing
-                currentValue = new String(ch, start, length);
-            }
+        if (isInDescription) {
+            builder.append(ch, start, length);
+        } else {
+            // for holding the value from parsing
+            currentValue = new String(ch, start, length);
+        }
 //            switch (ch[i]) {
 //                case '\\':
 //                    System.out.print("\\\\");
@@ -330,4 +385,8 @@ public class MyParser extends DefaultHandler {
         return MySQLFormattedPattern;
     }
 
+    private static String generateUUID() {
+        UUID id = UUID.randomUUID();
+        return String.valueOf(id);
+    }
 }
