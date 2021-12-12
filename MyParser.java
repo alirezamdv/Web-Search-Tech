@@ -383,8 +383,8 @@ public class MyParser extends DefaultHandler {
     }
 
     private static String convertTimeToMySQL(String eBayTime) {
-        SimpleDateFormat ebayTimePattern = new SimpleDateFormat("MMM-dd-yy HH:mm:ss");
-        SimpleDateFormat MySQLPattern = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat ebayTimePattern = new SimpleDateFormat("MMM-dd-yy HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat MySQLPattern = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         String MySQLFormattedPattern = "";
         try {
             Date parsedEbayTime = ebayTimePattern.parse(eBayTime);
