@@ -5,11 +5,13 @@ public class Item {
     private String firstBid;
     private String numberOfBids;
     private String buyPrice;
-    private String locationId;
+    private String geo_id;
     private String started;
     private String ends;
     private String userID;
     private String description;
+    private String country;
+    private String location;
 
     public Item() {
     }
@@ -62,12 +64,12 @@ public class Item {
         this.buyPrice = buyPrice;
     }
 
-    public String getLocationId() {
-        return locationId;
+    public String getGeo_id() {
+        return geo_id;
     }
 
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
+    public void setGeo_id(String geo_id) {
+        this.geo_id = geo_id;
     }
 
     public String getStarted() {
@@ -94,6 +96,22 @@ public class Item {
         this.userID = userID;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -109,11 +127,13 @@ public class Item {
                 currently + "\t" +
                 firstBid + "\t" +
                 numberOfBids + "\t" +
-                locationId + "\t" +
+                geo_id + "\t" +
                 started + "\t" +
                 ends + "\t" +
                 buyPrice + "\t" +
                 userID + "\t" +
+                country + "\t" +
+                location + "\t" +
                 description;
     }
 }

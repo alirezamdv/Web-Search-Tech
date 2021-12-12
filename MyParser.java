@@ -44,17 +44,21 @@ public class MyParser extends DefaultHandler {
     boolean inBid = false;
     private int bidNumber = 0;
     boolean isInDescription = false;
+    boolean isInCategory = false;
     private Item item;
     private Bids bids;
     private User bidder;
     private User seller;
     private ItemCategory itemCategory;
-    private Location seller_location;
+//    private Location seller_location;
     private Location bidder_location;
     private GeoLocation geoLocation;
 
     // for description,
     private StringBuilder builder;
+
+    // for Category,
+    private StringBuilder categoryBuilder;
 
     public static void main(String[] args) {
         try {
@@ -125,7 +129,7 @@ public class MyParser extends DefaultHandler {
             inItem = true;
             item = new Item();
             seller = new User();
-            seller.setId(generateUUID());
+            seller.setUser_id(atts.getValue("UserID"));
             itemCategory = new ItemCategory();
 
 
@@ -146,12 +150,11 @@ public class MyParser extends DefaultHandler {
             String bidderRating = atts.getValue("Rating");
             if (!bidderUserIDLinkedList.contains(user_id)) {
                 bidder = new User();
-                bidder.setId(generateUUID());
                 bidder.setUser_id(user_id);
                 bidder.setRating(bidderRating);
 
                 //bid and bidder(user) relation
-                bids.setUserId(bidder.getId());
+                bids.setUserId(atts.getValue("UserID"));
 
 
                 bidderUserIDLinkedList.add(user_id);
@@ -167,7 +170,7 @@ public class MyParser extends DefaultHandler {
                 seller.setRating(sellerRating);
 
                 // Item and seller(user) relation
-                item.setUserID(seller.getId());
+                item.setUserID(seller.getUser_id());
 
 
                 writeToSellerTableAllowed = true;
@@ -182,16 +185,19 @@ public class MyParser extends DefaultHandler {
             isInDescription = true;
             builder = new StringBuilder();
 
-        } else if (qName.equalsIgnoreCase("Location") ) {
-            if(inBid){
+        } else if (qName.equalsIgnoreCase("Category")) {
+            isInCategory = true;
+            categoryBuilder = new StringBuilder();
+
+        } else if (qName.equalsIgnoreCase("Location")) {
+            if (inBid) {
                 bidder_location = new Location();
                 bidder_location.setId(generateUUID());
 
             }
 
-            seller_location = new Location();
-            seller_location.setId(generateUUID());
-            item.setLocationId(seller_location.getId());
+//            seller_location = new Location();
+//            seller_location.setId(generateUUID());
 
             if (atts.getLength() == 2) {
                 geoLocation = new GeoLocation();
@@ -200,7 +206,7 @@ public class MyParser extends DefaultHandler {
                 geoLocation.setItemLongitude(atts.getValue("Longitude"));
 
                 //location and geolocation relation
-                seller_location.setGeo_id(geoLocation.getId());
+                item.setGeo_id(geoLocation.getId());
 
                 isGeolocation = true;
             }
@@ -223,27 +229,29 @@ public class MyParser extends DefaultHandler {
             //writeToTable(bidder, BIDDER_PATH);
             if (writeToSellerTableAllowed) {
                 writeToTable(seller, USER_PATH);
-                writeToTable(seller_location,LOCATION_PATH);
+//                writeToTable(seller_location, LOCATION_PATH);
 
                 writeToSellerTableAllowed = false;
 
             }
             if (writeToBidderTableAllowed) {
                 writeToTable(bidder, USER_PATH);
-                writeToTable(bidder_location,LOCATION_PATH);
+                writeToTable(bidder_location, LOCATION_PATH);
                 writeToBidderTableAllowed = false;
             }
             if (bidNumber > 0) {
                 writeToTable(bids, BID_PATH);
                 bidNumber = 0;
             }
-            writeToTable(itemCategory,CATEGORY_PATH);
             writeToTable(item, ITEM_PATH);
 
         } else if (qName.equalsIgnoreCase("Name")) {
             item.setName(currentValue);
         } else if (qName.equalsIgnoreCase("Category")) {
-            itemCategory.setItemCategory(currentValue);
+            isInCategory = false;
+            String categoryFullText = categoryBuilder.toString();
+            itemCategory.setItemCategory(categoryFullText);
+            writeToTable(itemCategory, CATEGORY_PATH);
         } else if (qName.equalsIgnoreCase("Currently")) {
             item.setCurrently(strip(currentValue));
         } else if (qName.equalsIgnoreCase("Buy_Price")) {
@@ -270,8 +278,8 @@ public class MyParser extends DefaultHandler {
             if (inBid) {
                 bidder_location.setLocation(currentValue);
             } else {
-                seller.setLocation_id(seller_location.getId());
-                seller_location.setLocation(currentValue);
+//                seller.setLocation_id(seller_location.getId());
+                item.setLocation(currentValue);
 
                 if (isGeolocation) {
                     //write to table geolocation
@@ -284,7 +292,7 @@ public class MyParser extends DefaultHandler {
             if (inBid) {
                 bidder_location.setCountry(currentValue);
             } else {
-                seller_location.setCountry(currentValue);
+                item.setCountry(currentValue);
             }
 
         } else if (qName.equalsIgnoreCase("Started")) {
@@ -295,7 +303,7 @@ public class MyParser extends DefaultHandler {
 
             item.setEnds(convertTimeToMySQL(currentValue));
 
-        }  else if (qName.equalsIgnoreCase("Bidder")) {
+        } else if (qName.equalsIgnoreCase("Bidder")) {
             // bidder(user) and location relation
             bidder.setLocation_id(bidder_location.getId());
 
@@ -329,6 +337,8 @@ public class MyParser extends DefaultHandler {
 
         if (isInDescription) {
             builder.append(ch, start, length);
+        } else if (isInCategory) {
+            categoryBuilder.append(ch, start, length);
         } else {
             // for holding the value from parsing
             currentValue = new String(ch, start, length);

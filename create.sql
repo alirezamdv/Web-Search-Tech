@@ -47,16 +47,17 @@ CREATE TABLE Item
     Currently      DECIMAL(8, 2) NOT NULL,
     FirstBid       DECIMAL(8, 2) NOT NULL,
     Number_Of_Bids INT           NOT NULL,
-    LocationId     VARCHAR(100)  NOT NULL,
+    Location    VARCHAR(100) NOT NULL,
+    Country VARCHAR(100) NOT NULL,
     Started        TIMESTAMP     NOT NULL,
     Ends           TIMESTAMP     NOT NULL,
     BuyPrice       DECIMAL(8, 2) NOT NULL,
     UserID         VARCHAR(100)  NOT NULL,
     Description    VARCHAR(4000) NOT NULL,
+    geo_id  VARCHAR(100),
     PRIMARY KEY (ItemID),
     FOREIGN KEY (UserId) REFERENCES User(id),
-    FOREIGN KEY (LocationId) REFERENCES Location(id)
-
+    FOREIGN KEY (geo_id) REFERENCES GeoLocation(id)
 
 );
 

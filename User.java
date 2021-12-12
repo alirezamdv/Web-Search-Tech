@@ -1,5 +1,4 @@
 public class User {
-    private String id;
     private String user_id;
     private String rating;
     private String location_id;
@@ -24,14 +23,6 @@ public class User {
         this.location_id = location_id;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getUser_id() {
         return user_id;
     }
@@ -42,8 +33,7 @@ public class User {
 
     @Override
     public String toString() {
-        return id + '\t' +
-                user_id + '\t' +
+        return user_id + '\t' +
                 rating + '\t' +
                 location_id;
     }
