@@ -9,10 +9,6 @@ public class GeoLocation {
     public GeoLocation() {
     }
 
-    public String getItemID() {
-        return id;
-    }
-
     public String getId() {
         return id;
     }

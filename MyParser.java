@@ -181,7 +181,7 @@ public class MyParser extends DefaultHandler {
 
         } else if (qName.equalsIgnoreCase("Description")) {
 
-            System.out.println("in Description");
+            //System.out.println("in Description");
             isInDescription = true;
             builder = new StringBuilder();
 
@@ -192,12 +192,10 @@ public class MyParser extends DefaultHandler {
         } else if (qName.equalsIgnoreCase("Location")) {
             if (inBid) {
                 bidder_location = new Location();
-                bidder_location.setId(generateUUID());
-
+                //bidder_location.setId(generateUUID());
+                bidder_location.setId(bidder.getUser_id());
             }
 
-//            seller_location = new Location();
-//            seller_location.setId(generateUUID());
 
             if (atts.getLength() == 2) {
                 geoLocation = new GeoLocation();

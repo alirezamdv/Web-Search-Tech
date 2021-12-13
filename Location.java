@@ -45,8 +45,7 @@ public class Location {
     public String toString() {
         return id + '\t' +
                 location + '\t' +
-                country + '\t' +
-                geo_id + '\t' ;
+                country;
     }
 
 }
