@@ -70,11 +70,11 @@ CREATE TABLE ItemCategory
 -- Create Bid Table
 CREATE TABLE Bids
 (
-    UserID VARCHAR(100)  NOT NULL,
+    User_ID VARCHAR(100)  NOT NULL,
     Time   TIMESTAMP     NOT NULL,
     ItemID INT           NOT NULL,
     Amount DECIMAL(8, 2) NOT NULL,
-    PRIMARY KEY (UserID, Time),
-    FOREIGN KEY (UserID) REFERENCES Item(UserID),
+    PRIMARY KEY (User_ID, Time),
+    FOREIGN KEY (User_ID) REFERENCES Bidder(User_ID),
     FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
 );
