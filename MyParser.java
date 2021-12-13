@@ -21,6 +21,8 @@ public class MyParser extends DefaultHandler {
     private static final String BID_PATH = "Bids.csv";
     private static final String CATEGORY_PATH = "ItemCategory.csv";
     private static final String USER_PATH = "User.csv";
+    private static final String BIDDER_PATH = "Bidder.csv";
+    private static final String SELLER_PATH = "Seller.csv";
     private static final String LOCATION_PATH = "Location.csv";
     private static final String GEO_PATH = "GeoLocation.csv";
 
@@ -47,8 +49,8 @@ public class MyParser extends DefaultHandler {
     boolean isInCategory = false;
     private Item item;
     private Bids bids;
-    private User bidder;
-    private User seller;
+    private Bidder bidder;
+    private Seller seller;
     private ItemCategory itemCategory;
 //    private Location seller_location;
     private Location bidder_location;
@@ -128,7 +130,7 @@ public class MyParser extends DefaultHandler {
         if (qName.equalsIgnoreCase("Item")) {
             inItem = true;
             item = new Item();
-            seller = new User();
+            seller = new Seller();
             //seller.setUser_id(atts.getValue("UserID"));
             itemCategory = new ItemCategory();
 
@@ -149,9 +151,9 @@ public class MyParser extends DefaultHandler {
             String user_id = atts.getValue("UserID");
             String bidderRating = atts.getValue("Rating");
             if (!bidderUserIDLinkedList.contains(user_id)) {
-                bidder = new User();
-                bidder.setUser_id(user_id);
-                bidder.setRating(bidderRating);
+                bidder = new Bidder();
+                bidder.setBidderID(user_id);
+                bidder.setBidderRating(bidderRating);
 
                 bidderUserIDLinkedList.add(user_id);
                 writeToBidderTableAllowed = true;
@@ -165,8 +167,8 @@ public class MyParser extends DefaultHandler {
             String sellerRating = atts.getValue("Rating");
             if (!sellerUserIDLinkedList.contains(user_id)) {
                 //seller.setUser_id(atts.getValue("UserID"));
-                seller.setUser_id(user_id);
-                seller.setRating(sellerRating);
+                seller.setSellerID(user_id);
+                seller.setSellerRating(sellerRating);
 
                 writeToSellerTableAllowed = true;
                 sellerUserIDLinkedList.add(user_id);
@@ -189,7 +191,7 @@ public class MyParser extends DefaultHandler {
             if (inBid) {
                 bidder_location = new Location();
                 //bidder_location.setId(generateUUID());
-                bidder_location.setId(bidder.getUser_id());
+                bidder_location.setId(bidder.getBidderID());
             }
 
 
@@ -222,16 +224,11 @@ public class MyParser extends DefaultHandler {
         if (qName.equalsIgnoreCase("Item")) {
             //writeToTable(bidder, BIDDER_PATH);
             if (writeToSellerTableAllowed) {
-                writeToTable(seller, USER_PATH);
+                writeToTable(seller, SELLER_PATH);
 //                writeToTable(seller_location, LOCATION_PATH);
 
                 writeToSellerTableAllowed = false;
 
-            }
-            if (writeToBidderTableAllowed) {
-                writeToTable(bidder, USER_PATH);
-                writeToTable(bidder_location, LOCATION_PATH);
-                writeToBidderTableAllowed = false;
             }
             if (bidNumber > 0) {
                 writeToTable(bids, BID_PATH);
@@ -298,8 +295,14 @@ public class MyParser extends DefaultHandler {
             item.setEnds(convertTimeToMySQL(currentValue));
 
         } else if (qName.equalsIgnoreCase("Bidder")) {
+            
+            if (writeToBidderTableAllowed) {
+                writeToTable(bidder, BIDDER_PATH);
+                writeToTable(bidder_location, LOCATION_PATH);
+                writeToBidderTableAllowed = false;
+            }
             // bidder(user) and location relation
-            bidder.setLocation_id(bidder_location.getId());
+            //bidder.setLocation_id(bidder_location.getId());
 
         } else if (qName.equalsIgnoreCase("Description")) {
 
