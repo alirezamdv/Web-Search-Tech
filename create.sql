@@ -9,7 +9,7 @@ CREATE TABLE Bidder
 (
     User_ID  VARCHAR(100) NOT NULL,
     Rating   INT          NOT NULL,
-    PRIMARY KEY (User_iD)
+    PRIMARY KEY (User_ID)
 );
 -- Create Location Table
 CREATE TABLE Location
@@ -26,7 +26,7 @@ CREATE TABLE Seller
 (
     User_ID  VARCHAR(100) NOT NULL,
     Rating   INT          NOT NULL,
-    PRIMARY KEY (User_iD)
+    PRIMARY KEY (User_ID)
 );
 
 -- Create Item Table
@@ -40,12 +40,12 @@ CREATE TABLE Item
     Started        TIMESTAMP     NOT NULL,
     Ends           TIMESTAMP     NOT NULL,
     BuyPrice       DECIMAL(8, 2) ,
-    UserID         VARCHAR(100)  ,
+    User_ID        VARCHAR(100)  ,
     Country        VARCHAR(100)  NOT NULL,
     Location       VARCHAR(100)  NOT NULL,
     Description    VARCHAR(4000) NOT NULL,
     PRIMARY KEY (ItemID),
-    FOREIGN KEY (UserId) REFERENCES Seller(User_iD)
+    FOREIGN KEY (User_ID) REFERENCES Seller(User_ID)
 );
 
 -- Create GeoLocation Table
