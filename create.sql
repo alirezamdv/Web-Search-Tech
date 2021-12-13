@@ -14,51 +14,42 @@ CREATE TABLE GeoLocation
     PRIMARY KEY (id)
 );
 
-CREATE TABLE Location
-(
-    id      VARCHAR(100) NOT NULL,
-    Location    VARCHAR(100) NOT NULL,
-    Country VARCHAR(100) NOT NULL,
-    geo_id  VARCHAR(100),
-    PRIMARY KEY (id),
-    FOREIGN KEY (geo_id) REFERENCES GeoLocation(id)
-
-);
-
-
 -- Create Table User
 CREATE TABLE User
 (
-    id       VARCHAR(100) NOT NULL,
-    User_iD  VARCHAR(100) NOT NULL,
+    User_ID  VARCHAR(100) NOT NULL,
     Rating   INT          NOT NULL,
-    Location_id VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (Location_id) REFERENCES Location(id)
+    PRIMARY KEY (User_iD)
 
 );
-
+-- Create Location Table
+CREATE TABLE Location
+(
+    User_ID      VARCHAR(100) NOT NULL,
+    Location    VARCHAR(100) NOT NULL,
+    Country VARCHAR(100) NOT NULL,
+    FOREIGN KEY (User_ID) REFERENCES User(User_ID)
+);
 
 -- Create Item Table
 CREATE TABLE Item
 (
     ItemID         INT           NOT NULL,
     Name           VARCHAR(100)  NOT NULL,
-    Currently      DECIMAL(8, 2) NOT NULL,
-    FirstBid       DECIMAL(8, 2) NOT NULL,
+    Currently      DECIMAL(8, 2) DEFAULT 0,
+    FirstBid       DECIMAL(8, 2) DEFAULT 0,
     Number_Of_Bids INT           NOT NULL,
-    Location    VARCHAR(100) NOT NULL,
-    Country VARCHAR(100) NOT NULL,
+    Geo_ID         VARCHAR(100)  NOT NULL,
     Started        TIMESTAMP     NOT NULL,
     Ends           TIMESTAMP     NOT NULL,
-    BuyPrice       DECIMAL(8, 2) NOT NULL,
+    BuyPrice       DECIMAL(8, 2) ,
     UserID         VARCHAR(100)  NOT NULL,
+    Country        VARCHAR(100)  NOT NULL,
+    Location       VARCHAR(100)  NOT NULL,
     Description    VARCHAR(4000) NOT NULL,
-    geo_id  VARCHAR(100),
     PRIMARY KEY (ItemID),
-    FOREIGN KEY (UserId) REFERENCES User(id),
-    FOREIGN KEY (geo_id) REFERENCES GeoLocation(id)
-
+    FOREIGN KEY (UserId) REFERENCES User(User_iD), 
+    FOREIGN KEY (Geo_ID) REFERENCES GeoLocation(id)
 );
 
 -- Create ItemCategory Table
@@ -78,9 +69,9 @@ CREATE TABLE Bids
     Time   TIMESTAMP     NOT NULL,
     ItemID INT           NOT NULL,
     Amount DECIMAL(8, 2) NOT NULL,
-    PRIMARY KEY (UserID, Time),
-    FOREIGN KEY (ItemID) REFERENCES Item(ItemID),
-    FOREIGN KEY (UserID) REFERENCES User(id)
+    PRIMARY KEY (UserID, Time)
+    -- FOREIGN KEY (ItemID) REFERENCES Item(ItemID),
+    -- FOREIGN KEY (UserID) REFERENCES User(User_iD)
 );
 
 -- Create Bidder Table
