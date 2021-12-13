@@ -11,23 +11,15 @@ CREATE TABLE User
     Rating   INT          NOT NULL,
     PRIMARY KEY (User_iD)
 );
+
 -- Create Location Table
 CREATE TABLE Location
 (
-    User_ID      VARCHAR(100) NOT NULL,
+    User_ID     VARCHAR(100) NOT NULL,
     Location    VARCHAR(100) NOT NULL,
     Country VARCHAR(100) NOT NULL,
     PRIMARY KEY (User_ID),
     FOREIGN KEY (User_ID) REFERENCES User(User_ID)
-);
-
--- Create GeoLocation Table
-CREATE TABLE GeoLocation
-(
-    ItemID    INT  NOT NULL,
-    Latitude  DECIMAL(9, 6) NOT NULL,
-    Longitude DECIMAL(9, 6) NOT NULL,
-    PRIMARY KEY (ItemID)
 );
 
 -- Create Item Table
@@ -49,6 +41,16 @@ CREATE TABLE Item
     FOREIGN KEY (UserId) REFERENCES User(User_iD)
 );
 
+-- Create GeoLocation Table
+CREATE TABLE GeoLocation
+(
+    ItemID    INT  NOT NULL,
+    Latitude  DECIMAL(9, 6) NOT NULL,
+    Longitude DECIMAL(9, 6) NOT NULL,
+    PRIMARY KEY (ItemID),
+    FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
+);
+
 -- Create ItemCategory Table
 CREATE TABLE ItemCategory
 (
@@ -65,5 +67,7 @@ CREATE TABLE Bids
     Time   TIMESTAMP     NOT NULL,
     ItemID INT           NOT NULL,
     Amount DECIMAL(8, 2) NOT NULL,
-    PRIMARY KEY (UserID, Time)
+    PRIMARY KEY (UserID, Time),
+    FOREIGN KEY (UserID) REFERENCES Item(UserID),
+    FOREIGN KEY (ItemID) REFERENCES Item(ItemID)
 );
