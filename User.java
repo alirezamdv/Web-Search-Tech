@@ -34,7 +34,6 @@ public class User {
     @Override
     public String toString() {
         return user_id + '\t' +
-                rating + '\t' +
-                location_id;
+                rating;
     }
 }

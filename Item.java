@@ -127,7 +127,6 @@ public class Item {
                 currently + "\t" +
                 firstBid + "\t" +
                 numberOfBids + "\t" +
-                geo_id + "\t" +
                 started + "\t" +
                 ends + "\t" +
                 buyPrice + "\t" +

@@ -1,20 +1,10 @@
 public class Bids {
-    private String id;
     private String userId;
-    private String bidderID;
     private String bidderTime;
     private String itemID;
     private String bidderAmount;
 
     public Bids() {
-    }
-
-    public String getBidderID() {
-        return bidderID;
-    }
-
-    public void setBidderID(String bidderID) {
-        this.bidderID = bidderID;
     }
 
     public String getBidderTime() {
@@ -49,19 +39,9 @@ public class Bids {
         this.userId = userId;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     @Override
     public String toString() {
-        return  id + '\t' +
-                userId + '\t' +
-                bidderID + '\t' +
+        return  userId + '\t' +
                 bidderTime + '\t' +
                 itemID + '\t' +
                 bidderAmount;

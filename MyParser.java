@@ -129,7 +129,7 @@ public class MyParser extends DefaultHandler {
             inItem = true;
             item = new Item();
             seller = new User();
-            seller.setUser_id(atts.getValue("UserID"));
+            //seller.setUser_id(atts.getValue("UserID"));
             itemCategory = new ItemCategory();
 
 
@@ -143,7 +143,7 @@ public class MyParser extends DefaultHandler {
             inBid = true;
             bids = new Bids();
             bids.setItemID(item.getItemID());
-            bids.setId(generateUUID());
+            //bids.setId(generateUUID());
 
         } else if (qName.equalsIgnoreCase("Bidder")) {
             String user_id = atts.getValue("UserID");
@@ -153,30 +153,26 @@ public class MyParser extends DefaultHandler {
                 bidder.setUser_id(user_id);
                 bidder.setRating(bidderRating);
 
-                //bid and bidder(user) relation
-                bids.setUserId(atts.getValue("UserID"));
-
-
                 bidderUserIDLinkedList.add(user_id);
                 writeToBidderTableAllowed = true;
             }
+            //bid and bidder(user) relation
+            bids.setUserId(atts.getValue("UserID"));
 
 
         } else if (qName.equalsIgnoreCase("Seller")) {
             String user_id = atts.getValue("UserID");
             String sellerRating = atts.getValue("Rating");
             if (!sellerUserIDLinkedList.contains(user_id)) {
+                //seller.setUser_id(atts.getValue("UserID"));
                 seller.setUser_id(user_id);
                 seller.setRating(sellerRating);
 
-                // Item and seller(user) relation
-                item.setUserID(seller.getUser_id());
-
-
                 writeToSellerTableAllowed = true;
                 sellerUserIDLinkedList.add(user_id);
-
             }
+            // Item and seller(user) relation
+            item.setUserID(user_id);
 
 
         } else if (qName.equalsIgnoreCase("Description")) {
@@ -199,12 +195,12 @@ public class MyParser extends DefaultHandler {
 
             if (atts.getLength() == 2) {
                 geoLocation = new GeoLocation();
-                geoLocation.setId(generateUUID());
+                geoLocation.setId(item.getItemID());
                 geoLocation.setItemLatitude(atts.getValue("Latitude"));
                 geoLocation.setItemLongitude(atts.getValue("Longitude"));
 
                 //location and geolocation relation
-                item.setGeo_id(geoLocation.getId());
+                //item.setGeo_id(geoLocation.getId());
 
                 isGeolocation = true;
             }
