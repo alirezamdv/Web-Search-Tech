@@ -2,11 +2,11 @@
 
 rm *.csv
 # Dropping the Table
-sudo mysql  < drop.sql
+mysql  < drop.sql
 echo "Tables Were Dropped Successfully."
 
 # Creating the Database and the Tables
-sudo mysql  < create.sql
+mysql  < create.sql
 echo "Database and Tables Were Created Successfully."
 
 # Compile and run the convertor
@@ -17,7 +17,7 @@ java MyParser ebay_data/items-*.xml
 echo "Parsing the XML Files are Done."
 
 # Run the load.sql batch file to load the data
-sudo mysql --local-infile  < load.sql
+mysql --local-infile  < load.sql
 echo "All Data (CSV Files) Have been Successfully Populated into the Database."
 
 
