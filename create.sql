@@ -4,14 +4,13 @@ CREATE DATABASE IF NOT EXISTS ad;
 
 use ad;
 
--- Create Table User
-CREATE TABLE User
+-- Create Table Bidder
+CREATE TABLE Bidder
 (
     User_ID  VARCHAR(100) NOT NULL,
     Rating   INT          NOT NULL,
     PRIMARY KEY (User_iD)
 );
-
 -- Create Location Table
 CREATE TABLE Location
 (
@@ -19,7 +18,15 @@ CREATE TABLE Location
     Location    VARCHAR(100) NOT NULL,
     Country VARCHAR(100) NOT NULL,
     PRIMARY KEY (User_ID),
-    FOREIGN KEY (User_ID) REFERENCES User(User_ID)
+    FOREIGN KEY (User_ID) REFERENCES Bidder(User_ID)
+);
+
+-- Create Table Seller
+CREATE TABLE Seller
+(
+    User_ID  VARCHAR(100) NOT NULL,
+    Rating   INT          NOT NULL,
+    PRIMARY KEY (User_iD)
 );
 
 -- Create Item Table
@@ -38,7 +45,7 @@ CREATE TABLE Item
     Location       VARCHAR(100)  NOT NULL,
     Description    VARCHAR(4000) NOT NULL,
     PRIMARY KEY (ItemID),
-    FOREIGN KEY (UserId) REFERENCES User(User_iD)
+    FOREIGN KEY (UserId) REFERENCES Seller(User_iD)
 );
 
 -- Create GeoLocation Table
