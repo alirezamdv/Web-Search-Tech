@@ -2,10 +2,10 @@
 SELECT COUNT(*) FROM (SELECT User_ID FROM Seller UNION SELECT User_ID FROM Bidder) as x;
 
 -- Find the number of items in "New York", i.e., itmes whose location is exactly the string "New York". Pay special attention to case sensitivity. E.g., you should not match items in "new york".
-SELECT * FROM (SELECT * from Item it, Location l  where it.LocationId = l.id and BINARY Location='New York') as il* ;
+SELECT COUNT(Location) FROM Item WHERE BINARY Item.Location='New York';
 
 -- Find the number of auctions belonging to exactly four categories. Be careful to remove duplicates, if you store them.
-SELECT count(*) FROM (SELECT ItemID FROM ItemCategory GROUP BY ItemId Having count(Category) >1 ) as ICII;
+SELECT count(*) FROM (SELECT ItemID FROM ItemCategory GROUP BY ItemId Having count(Category)=4) as ICII;
 
 -- Find the ID(s) of current (unsold) auction(s) with the highest bid. Remember that the data was captured at December 20th, 2001, one second after midnight. Pay special attention to the current auctions without any bid.
 
