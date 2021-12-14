@@ -13,8 +13,385 @@ import javax.lang.model.type.NullType;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+///////////////////////////////////
+// Different Classes for the tables
+///////////////////////////////////
 
-public class MyParser extends DefaultHandler {
+//Bidder Table
+class Bidder {
+    private String bidderID;
+    private String bidderRating;
+
+    public Bidder() {
+    }
+
+    public String getBidderID() {
+        return bidderID;
+    }
+
+    public void setBidderID(String bidderID) {
+        this.bidderID = bidderID;
+    }
+
+    public String getBidderRating() {
+        return bidderRating;
+    }
+
+    public void setBidderRating(String bidderRating) {
+        this.bidderRating = bidderRating;
+    }
+
+    @Override
+    public String toString() {
+        return bidderID + '\t' +
+               bidderRating;
+    }
+}
+
+//Bids Table
+class Bids {
+    private String userId;
+    private String bidderTime;
+    private String itemID;
+    private String bidderAmount;
+
+    public Bids() {
+    }
+
+    public String getBidderTime() {
+        return bidderTime;
+    }
+
+    public void setBidderTime(String bidderTime) {
+        this.bidderTime = bidderTime;
+    }
+
+    public String getItemID() {
+        return itemID;
+    }
+
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
+    }
+
+    public String getBidderAmount() {
+        return bidderAmount;
+    }
+
+    public void setBidderAmount(String bidderAmount) {
+        this.bidderAmount = bidderAmount;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return  userId + '\t' +
+                bidderTime + '\t' +
+                itemID + '\t' +
+                bidderAmount;
+    }
+}
+
+
+
+//Geolocation Table
+class GeoLocation {
+    private String id;
+    private String itemLatitude;
+    private String itemLongitude;
+
+
+    public GeoLocation() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getItemLatitude() {
+        return itemLatitude;
+    }
+
+    public void setItemLatitude(String itemLatitude) {
+        this.itemLatitude = itemLatitude;
+    }
+
+    public String getItemLongitude() {
+        return itemLongitude;
+    }
+
+    public void setItemLongitude(String itemLongitude) {
+        this.itemLongitude = itemLongitude;
+    }
+
+    @Override
+    public String toString() {
+        return id + '\t' +
+               itemLatitude + '\t' +
+               itemLongitude;
+    }
+}
+
+//Item Table
+class Item {
+    private String itemID;
+    private String name;
+    private String currently;
+    private String firstBid;
+    private String numberOfBids;
+    private String buyPrice;
+    private String geo_id;
+    private String started;
+    private String ends;
+    private String userID;
+    private String description;
+    private String country;
+    private String location;
+
+    public Item() {
+    }
+
+    public String getItemID() {
+        return itemID;
+    }
+
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCurrently() {
+        return currently;
+    }
+
+    public void setCurrently(String currently) {
+        this.currently = currently;
+    }
+
+    public String getFirstBid() {
+        return firstBid;
+    }
+
+    public void setFirstBid(String firstBid) {
+        this.firstBid = firstBid;
+    }
+
+    public String getNumberOfBids() {
+        return numberOfBids;
+    }
+
+    public void setNumberOfBids(String numberOfBids) {
+        this.numberOfBids = numberOfBids;
+    }
+
+    public String getBuyPrice() {
+        return buyPrice;
+    }
+
+    public void setBuyPrice(String buyPrice) {
+        this.buyPrice = buyPrice;
+    }
+
+    public String getGeo_id() {
+        return geo_id;
+    }
+
+    public void setGeo_id(String geo_id) {
+        this.geo_id = geo_id;
+    }
+
+    public String getStarted() {
+        return started;
+    }
+
+    public void setStarted(String started) {
+        this.started = started;
+    }
+
+    public String getEnds() {
+        return ends;
+    }
+
+    public void setEnds(String ends) {
+        this.ends = ends;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return itemID + "\t" +
+                name + "\t" +
+                currently + "\t" +
+                firstBid + "\t" +
+                numberOfBids + "\t" +
+                started + "\t" +
+                ends + "\t" +
+                buyPrice + "\t" +
+                userID + "\t" +
+                country + "\t" +
+                location + "\t" +
+                description;
+    }
+}
+
+
+
+//ItemCategory Table
+class ItemCategory {
+    private String itemID;
+    private String itemCategory;
+
+    public ItemCategory() {
+    }
+
+    public String getItemCategory() {
+        return itemCategory;
+    }
+
+    public void setItemCategory(String itemCategory) {
+        this.itemCategory = itemCategory;
+    }
+
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
+    }
+
+    @Override
+    public String toString() {
+        return  itemID + '\t' +
+                itemCategory;
+    }
+}
+
+
+//Location Table
+class Location {
+    private String id;
+    private String location;
+    private String country;
+
+    public Location() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    @Override
+    public String toString() {
+        return id + '\t' +
+                location + '\t' +
+                country;
+    }
+
+}
+
+//Seller Table
+
+class Seller {
+    private String sellerID;
+    private String sellerRating;
+
+    public Seller() {
+    }
+
+    public String getSellerID() {
+        return sellerID;
+    }
+
+    public void setSellerID(String sellerID) {
+        this.sellerID = sellerID;
+    }
+
+    public String getSellerRating() {
+        return sellerRating;
+    }
+
+    public void setSellerRating(String sellerRating) {
+        this.sellerRating = sellerRating;
+    }
+
+    @Override
+    public String toString() {
+        return sellerID + '\t' +
+               sellerRating;
+    }
+}
+
+////////////////////////
+//MySax Parser class
+////////////////////////
+
+public class MySAX extends DefaultHandler {
 
     // csv path for tables
     private static final String ITEM_PATH = "Item.csv";
@@ -66,7 +443,7 @@ public class MyParser extends DefaultHandler {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
-            MyParser myParser = new MyParser();
+            MySAX mySax = new MySAX();
 //            String[] p = {"ebay_data/items-1.xml"};
 
             // Parse each file provided on the
@@ -74,7 +451,7 @@ public class MyParser extends DefaultHandler {
             for (String arg : args) {
                 File inputFile = new File(arg);
 
-                saxParser.parse(inputFile, myParser);
+                saxParser.parse(inputFile, mySax);
 
             }
         } catch (Exception e) {
@@ -84,7 +461,7 @@ public class MyParser extends DefaultHandler {
     }
 
 
-    public MyParser() {
+    public MySAX() {
         super();
     }
 

@@ -10,10 +10,10 @@ sudo mysql  < create.sql
 echo "Database and Tables Were Created Successfully."
 
 # Compile and run the convertor
-javac MyParser.java
+javac MySAX.java
 echo "Compiling the Project is Done."
 
-java MyParser ebay_data/items-*.xml
+java MySAX ebay_data/items-*.xml
 echo "Parsing the XML Files are Done."
 
 # Run the load.sql batch file to load the data
