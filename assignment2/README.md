@@ -8,7 +8,7 @@
 
 ### TODOs
 
-- [ ] create a new table that associates geo-coordinates (as POINTs) to item-IDs, i.e., a table with two columns: one column for item-IDs, and another column for geo-coordinates. Geo-coordinates are points, represented using the POINT data type of MySQL.
+- [x] create a new table that associates geo-coordinates (as POINTs) to item-IDs, i.e., a table with two columns: one column for item-IDs, and another column for geo-coordinates. Geo-coordinates are points, represented using the POINT data type of MySQL.
 - [ ] fill this table with all items that have latitude and longitude information, i.e., write a SQL insert into statement with a SQL query that selects each item-ID together with its latitude and longitued information (converted into a POINT).
 - [ ] create a spatial index for the point column of your table from the previous step. Recall that the point-column must be declared as NOT NULL and that the table of the previous step must be created using ENGINE=MyISAM, i.e., the statement of the previous step has this structure
 ` CREATE TABLE IF NOT EXISTS xxx (...) ENGINE = MyISAM; `
