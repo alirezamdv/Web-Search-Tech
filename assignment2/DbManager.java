@@ -4,11 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
 public class DbManager {
         static private String databaseURL = "jdbc:mysql://localhost:3306/";
-        static private String dbname = "ad";
+        static private String dbname = "ad2";
         static private String username = "ad";
-        static private String password = "ad";
+        static private String password = "Ad123456789)";
 	
 	/**
 	 * Opens a database connection
