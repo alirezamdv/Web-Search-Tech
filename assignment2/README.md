@@ -19,9 +19,12 @@ Here you are asked to write a program Indexer.java that creates a lucene index.
 
 The index should be stored in a directory named **indexes** (under the current working directory from which runLoad.sh is called).
 ### TODOs
-- [ ] Query to get the union of the name, categories, and description of an item. For example, for the query "Disney", your basic search function should print (in HTML) the item-ID and name of items that have the keyword "Disney" in the union of the name, category and description entries.
-- [ ] Implement lucene index writer
+- [x] Query to get the union of the name, categories, and description of an item. For example, for the query "Disney", your basic search function should print (in HTML ???) the item-ID and name of items that have the keyword "Disney" in the union of the name, category and description entries.
+- [x] Implement lucene index writer
 
+[group concat](https://stackoverflow.com/questions/7691816/group-concat-comma-separator-mysql/7691888)
+
+[Lucene Tutorial](https://www.lucenetutorial.com/lucene-in-5-minutes.html)
 
 ## Part C: Implement the Search Function
 
