@@ -18,6 +18,9 @@
 Here you are asked to write a program Indexer.java that creates a lucene index.
 
 The index should be stored in a directory named **indexes** (under the current working directory from which runLoad.sh is called).
+### TODOs
+- [ ] Query to get the union of the name, categories, and description of an item. For example, for the query "Disney", your basic search function should print (in HTML) the item-ID and name of items that have the keyword "Disney" in the union of the name, category and description entries.
+- [ ] Implement lucene index writer
 
 
 ## Part C: Implement the Search Function
@@ -26,7 +29,7 @@ You will write the Java program Searcher.java which carries out keyword and spat
 
 ` java Searcher "star trek" `
 
-returns a list of item-IDs, item-names, and Lucene scores of all items that contain the word "star" or the word "trek" (or both) in the name of the item, or in one of the categories of the item, or in the description of the item. This list is returned in HTML format. In fact, just plain text without HTML-tags is fine. In the first line, print the number of hits. Your program should print to stdout, not a file. When you initilize the query parser, use again the SimpleAnalyzer of Lucene.
+returns a list of item-IDs, item-names, and Lucene scores of all items that contain the word "star" or the word "trek" (or both) in the name of the item, or in one of the categories of the item, or in the description of the item. This list is returned to HTML format. In fact, just plain text without HTML-tags is fine. In the first line, print the number of hits. Your program should print to stdout, not a file. When you initilize the query parser, use again the SimpleAnalyzer of Lucene.
 
 Your Searcher program should be implemented in such a way that it can also take three arguments, in the following way:
 ` java Searcher "star trek" -x longitude -y latitude -w width `
@@ -36,3 +39,7 @@ Your Searcher program should be implemented in such a way that it can also take 
 ## Part D: Automize
 
 Write a small runLoad.sh script. First, if they do not exists yet, this script creates the geo-coordinates table and the spatial index. Next, the script compiles your Indexer.java and runs it in order to build the Lucene index. Finally, the script compiles your Searcher.java program. Thus, after completion of this script, one may call the Searcher program via java Searcher "list of keywords" (or, with the additional parameters) to obtain the correct output.
+
+
+
+[doc](https://user.informatik.uni-bremen.de/~leupold/PA-STMW/PA2/)
