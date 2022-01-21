@@ -1,4 +1,6 @@
-public class Seller {
+//Seller Table
+
+class Seller {
     private String sellerID;
     private String sellerRating;
 
@@ -24,6 +26,6 @@ public class Seller {
     @Override
     public String toString() {
         return sellerID + '\t' +
-               sellerRating;
+                sellerRating;
     }
 }

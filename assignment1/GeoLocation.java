@@ -1,6 +1,5 @@
-
-
-public class GeoLocation {
+//Geolocation Table
+class GeoLocation {
     private String id;
     private String itemLatitude;
     private String itemLongitude;
@@ -35,8 +34,8 @@ public class GeoLocation {
 
     @Override
     public String toString() {
-        return id + '\t' +
-               itemLatitude + '\t' +
-               itemLongitude;
+        return id + "\t" +
+                itemLatitude + "\t" +
+                itemLongitude;
     }
 }

@@ -14,7 +14,11 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 
-public class MyParser extends DefaultHandler {
+////////////////////////
+//MySax Parser class
+////////////////////////
+
+public class MySAX extends DefaultHandler {
 
     // csv path for tables
     private static final String ITEM_PATH = "Item.csv";
@@ -52,7 +56,7 @@ public class MyParser extends DefaultHandler {
     private Bidder bidder;
     private Seller seller;
     private ItemCategory itemCategory;
-//    private Location seller_location;
+    //    private Location seller_location;
     private Location bidder_location;
     private GeoLocation geoLocation;
 
@@ -66,7 +70,7 @@ public class MyParser extends DefaultHandler {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
-            MyParser myParser = new MyParser();
+            MySAX mySax = new MySAX();
 //            String[] p = {"ebay_data/items-1.xml"};
 
             // Parse each file provided on the
@@ -74,7 +78,7 @@ public class MyParser extends DefaultHandler {
             for (String arg : args) {
                 File inputFile = new File(arg);
 
-                saxParser.parse(inputFile, myParser);
+                saxParser.parse(inputFile, mySax);
 
             }
         } catch (Exception e) {
@@ -84,7 +88,7 @@ public class MyParser extends DefaultHandler {
     }
 
 
-    public MyParser() {
+    public MySAX() {
         super();
     }
 
@@ -295,7 +299,7 @@ public class MyParser extends DefaultHandler {
             item.setEnds(convertTimeToMySQL(currentValue));
 
         } else if (qName.equalsIgnoreCase("Bidder")) {
-            
+
             if (writeToBidderTableAllowed) {
                 writeToTable(bidder, BIDDER_PATH);
                 writeToTable(bidder_location, LOCATION_PATH);

@@ -1,4 +1,5 @@
-public class Bids {
+//Bids Table
+class Bids {
     private String userId;
     private String bidderTime;
     private String itemID;

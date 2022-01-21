@@ -1,4 +1,5 @@
-public class Item {
+//Item Table
+class Item {
     private String itemID;
     private String name;
     private String currently;

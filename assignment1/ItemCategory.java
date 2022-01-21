@@ -1,4 +1,5 @@
-public class ItemCategory {
+//ItemCategory Table
+class ItemCategory {
     private String itemID;
     private String itemCategory;
 
