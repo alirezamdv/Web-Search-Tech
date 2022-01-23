@@ -81,20 +81,17 @@ public class Indexer {
 
     public static void queryToGetItemID_ItemName_Categories_Description(Connection connection) throws SQLException {
 
-        String query = "SELECT item.item_id, item.item_name, \n" +
-                "GROUP_CONCAT(category_name SEPARATOR ' ') AS categories, item.description\n" +
-                "FROM item\n" +
-                "JOIN has_category ON item.item_id = has_category.item_id GROUP BY item.item_id;";
+        String query = "SELECT item.item_id, item.item_name, GROUP_CONCAT(category_name SEPARATOR ' ') AS categories, item.description FROM item JOIN has_category ON item.item_id = has_category.item_id GROUP BY item.item_id;";
         try (Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                String item_item_id = rs.getString("item.item_id");
-                String item_item_name = rs.getString("item.item_name");
-                String category_concatenated = rs.getString("categories_concatenated");
-                String description = rs.getString("item.description");
-                items.put(
-                        item_item_id, concatenateString(item_item_name, category_concatenated, description)
-                );
+				String item_item_id = rs.getString("item.item_id");
+				String item_item_name = rs.getString("item.item_name");
+				String category_concatenated = rs.getString("categories");
+				String description = rs.getString("item.description");
+				items.put(item_item_id, concatenateString(item_item_name, category_concatenated, description)
+				);
+				// System.out.println(rs);
             }
 
         } catch (SQLException e) {
