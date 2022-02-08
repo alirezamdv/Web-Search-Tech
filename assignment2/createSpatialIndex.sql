@@ -15,3 +15,4 @@ INSERT INTO geo
 SELECT item_id, 
        Geomfromwkb(Point(item_coordinates.latitude, item_coordinates.longitude))
 FROM   item_coordinates;
+
